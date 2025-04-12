@@ -1,0 +1,14 @@
+services:
+  kasm-desktop:
+    image: kasmweb/ubuntu-jammy-desktop:1.15.0
+    container_name: google-photos-login 
+    ports:
+      - "6901:6901" # VNC port, access on https://localhost:6901/ or https://server-name:6901/
+    environment:
+      - VNC_PW=password # log on using username: kasm_user and password as specified here
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config:/config # chrome session dir
+    shm_size: '1gb'
+    restart: unless-stopped 
+  

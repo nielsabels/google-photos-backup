@@ -19,7 +19,7 @@ RUN mkdir -p /build_output/usr/local/bin
 
 # --- Build gphotos-cdp directly from GitHub ---
 RUN echo "Building gphotos-cdp from GitHub (bypassing proxy)..." \
- && GOPROXY=direct go install github.com/nielsabels/gphotos-cdp@a0f64212b6081bb21a9fb60336c6c5694889f35b
+ && GOPROXY=direct go install github.com/nielsabels/gphotos-cdp@4690a57908d865350e19a30518cf1fc029e2c9d2
 
 # Copy the compiled binary from the default Go install path to our output directory
 RUN echo "Copying built binary..." \

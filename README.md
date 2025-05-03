@@ -15,7 +15,7 @@ This solution is focused on using Chrome, but runs it non-headlessly in an X11 e
 docker compose -f docker-compose-login.yml up
 ```
 
-Use your browser to go to https://localhost:6901/ or https://<server-name>:6901/. Log on using:
+Use your browser to go to https://localhost:6901/ or https://server-name:6901/. Log on using:
 
 user: kasm_user 
 password: password

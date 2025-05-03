@@ -109,3 +109,7 @@ WORKDIR /app
 RUN mkdir -p /app/scripts
 COPY ./scripts/fix_time.sh /app/scripts/fix_time.sh
 RUN chmod +x /app/scripts/fix_time.sh
+
+# Main app routine
+COPY ./scripts/app.sh /app/scripts/app.sh
+RUN chmod +x /app/scripts/app.sh

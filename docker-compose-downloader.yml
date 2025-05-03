@@ -7,34 +7,15 @@ services:
       - /path/to/downloads:/downloads     # downloads go here
       - ./config:/tmp/gphotos-cdp  # chrome session goes here (created using docker-compose-login.yml)
 
-    command: >
-      sh -c '
-        echo "[Entry] Cleaning up potential stale Xvfb lock file..."
-        rm -f /tmp/.X99-lock
+    environment:
+      # Set the sleep time in seconds (e.g., 6 hours = 21600)
+      - WORKLOAD_SLEEP_DURATION=21600
+      - WORKLOAD_INITIAL_DELAY=0
 
-        echo "[Entry] Cleaning up potential stale chrome session locks (e.g. when closing container abruptly)..."
-        rm -f /tmp/gphotos-cdp/Singleton* 
+    # Set the entrypoint to our new wrapper script
+    entrypoint: /app/scripts/app.sh
 
-        echo "[Entry] Starting Xvfb on :99..."
-        Xvfb :99 -screen 0 1280x800x24 &
-        XVFBPID=$$!
-        export DISPLAY=:99
-
-        echo "[Entry] Xvfb PID: $$XVFBPID. Display $$DISPLAY set."
-        sleep 2
-
-        echo "[Entry] Running gphotos-cdp..."
-        gphotos-cdp -v -dev -dldir /downloads -run /app/scripts/fix_time.sh
-        EXIT_CODE=$$?
-        echo "[Entry] gphotos-cdp exited with code $$EXIT_CODE."
-
-        echo "[Entry] Killing Xvfb (PID $$XVFBPID)."
-        kill $$XVFBPID 2>/dev/null || echo "[Entry] Xvfb (PID $$XVFBPID) already stopped." # Escaped PID, suppress error if already gone
-
-        echo "[Entry] Exiting with code $$EXIT_CODE."
-        exit $$EXIT_CODE
-      '
-    shm_size: '2gb'
+    shm_size: '1gb'
 
     cap_add:
       - SYS_ADMIN # Chome throws error re: namespace operations otherwise when starting session
